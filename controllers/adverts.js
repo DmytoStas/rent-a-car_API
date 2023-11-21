@@ -29,13 +29,14 @@ const getAdvertsSearch = async (req, res) => {
       if (maxMileage) baseQuery.mileage.$lte = parseInt(maxMileage);
     }
 
-    const hits = await Advert.find(baseQuery)
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const skip = (page - 1) * limit;
+
+    const hits = await Advert.find(baseQuery).skip(skip).limit(limit);
 
     const totalHits = await Advert.count(baseQuery);
+    const hasMore = skip + hits.length < (await Advert.count(baseQuery));
 
-    res.json({ hits, totalHits });
+    res.json({ hits, totalHits, hasMore });
   } catch (error) {
     console.error("Error in searchCars:", error);
     res.status(500).json({ error: "Internal Server Error" });
