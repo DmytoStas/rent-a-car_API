@@ -1,6 +1,16 @@
 const { Advert } = require("../models/adverts");
 const { controllerWrapper } = require("../helpers");
 
+const getAllAdverts = async (_, res) => {
+  try {
+    const allHits = await Advert.find();
+    res.json(allHits);
+  } catch (error) {
+    console.error("Error in searchCars:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getAdvertsSearch = async (req, res) => {
   try {
     const {
@@ -44,5 +54,6 @@ const getAdvertsSearch = async (req, res) => {
 };
 
 module.exports = {
+  getAllAdverts: controllerWrapper(getAllAdverts),
   getAdvertsSearch: controllerWrapper(getAdvertsSearch),
 };

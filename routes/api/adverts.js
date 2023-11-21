@@ -1,8 +1,13 @@
 const express = require("express");
 
-const { getAdvertsSearch } = require("../../controllers/adverts");
+const {
+  getAdvertsSearch,
+  getAllAdverts,
+} = require("../../controllers/adverts");
 
 const router = express.Router();
+
+router.get("/allAdverts", getAllAdverts);
 
 router.get("/adverts", getAdvertsSearch);
 
