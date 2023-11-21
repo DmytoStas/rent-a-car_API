@@ -4,7 +4,7 @@ const { controllerWrapper } = require("../helpers");
 const getMakes = async (_, res) => {
   try {
     const result = await Makes.find();
-    res.json(result);
+    res.json(result[0]);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
